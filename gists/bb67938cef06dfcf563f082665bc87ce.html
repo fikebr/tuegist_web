@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TueGist Rules</title>
+    <title>TueGist CSV Operations</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#xf022;</text></svg>">
     <style>
@@ -95,7 +95,7 @@
         
 
 <h1>GIST VIEWER</h1>
-<h2>Rules</h2>
+<h2>CSV Operations</h2>
 <div id="gist-container" class="gist-container">Loading...</div>
 
 
@@ -105,7 +105,7 @@
     
 
 async function fetchGist() {
-    const gistId = 'e783c4c2caf568ee6172b853ff7baf83';
+    const gistId = 'bb67938cef06dfcf563f082665bc87ce';
     const url = `https://api.github.com/gists/${gistId}`;
     const gistContainer = document.getElementById('gist-container');
 
