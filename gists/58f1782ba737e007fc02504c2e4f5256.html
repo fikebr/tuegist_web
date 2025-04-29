@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TueGist Image upscale</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#xf022;</text></svg>">
+    <style>
+        body {
+            font-family: Verdana, Geneva, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f6ef;
+        }
+        .header {
+            background-color: #ff6600;
+            padding: 2px;
+            color: #000;
+        }
+        .nav {
+            display: inline-block;
+            padding: 3px;
+        }
+        .nav a {
+            color: #000;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        .logo {
+            border: 1px solid black;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        .content {
+            padding: 10px;
+        }
+        .login {
+            float: right;
+            margin-right: 5px;
+        }
+
+        
+
+.gist-container {
+    margin-bottom: 20px;
+}
+.file-container {
+    position: relative;
+    background: #272822;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    margin-top: 5px;
+}
+.file-header {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #444;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+.copy-btn:hover {
+    background: #666;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="nav">
+            <a href="https://www.tuegist.com/index.html"><span class="logo"><i class="fa-solid fa-list"></i></span></a>
+            <a href="https://www.tuegist.com/index.html">index</a> |
+            <a href="https://www.tuegist.com/categories.html">categories</a> |
+            <a href="https://www.tuegist.com/tags.html">tags</a> |
+            <a href="https://www.tuegist.com/about.html">about</a> |
+            <a href="https://www.tuegist.com/contact.html">contact</a> |
+            <a href="https://github.com/fikebr/tuegist" target="_blank">github</a>
+        </div>
+    </div>
+    <div class="content">
+        
+
+<h1>GIST VIEWER</h1>
+<h2>Image upscale</h2>
+<p>Published: 2025-04-03</p>
+<p>Github Gist:<a href="https://gist.github.com/fikebr/58f1782ba737e007fc02504c2e4f5256" target="_blank">https://gist.github.com/fikebr/58f1782ba737e007fc02504c2e4f5256</a></p>
+<div id="gist-container" class="gist-container">Loading...</div>
+
+
+    </div>
+
+    <script>
+    
+
+async function fetchGist() {
+    const gistId = '58f1782ba737e007fc02504c2e4f5256';
+    const url = `https://api.github.com/gists/${gistId}`;
+    const gistContainer = document.getElementById('gist-container');
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch Gist');
+        }
+
+        const gistData = await response.json();
+        gistContainer.innerHTML = ""; // Clear previous content
+
+        const files = Object.values(gistData.files);
+        if (files.length === 0) {
+            gistContainer.innerHTML = "<p>No files found in the Gist.</p>";
+            return;
+        }
+
+        files.forEach(file => {
+            const fileBlock = document.createElement('div');
+            fileBlock.classList.add('file-container');
+
+            const fileHeader = document.createElement('div');
+            fileHeader.classList.add('file-header');
+            fileHeader.textContent = file.filename;
+
+            const codeBlock = document.createElement('pre');
+            codeBlock.textContent = file.content;
+
+            const copyButton = document.createElement('button');
+            copyButton.classList.add('copy-btn');
+            copyButton.textContent = '📋';
+            copyButton.onclick = () => copyToClipboard(file.content, copyButton);
+
+            fileBlock.appendChild(fileHeader);
+            fileBlock.appendChild(copyButton);
+            fileBlock.appendChild(codeBlock);
+            gistContainer.appendChild(fileBlock);
+        });
+
+    } catch (error) {
+        gistContainer.innerHTML = `<p>Error: ${error.message}</p>`;
+    }
+}
+
+function copyToClipboard(text, button) {
+    navigator.clipboard.writeText(text).then(() => {
+        button.textContent = '✅';
+        setTimeout(() => {
+            button.textContent = '📋';
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+}
+
+fetchGist();
+
+
+    </script>
+</body>
+</html>
